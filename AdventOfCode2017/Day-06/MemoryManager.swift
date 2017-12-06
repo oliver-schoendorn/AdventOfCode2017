@@ -8,7 +8,7 @@ import Foundation
 class MemoryManager
 {
     private var currentConfiguration: [Int]
-    private var pastConfigurations: [[Int]] = []
+    private var pastConfigurations: [String] = []
 
     public init(initialConfiguration: [Int])
     {
@@ -22,7 +22,7 @@ class MemoryManager
 
     public func iterate()
     {
-        self.pastConfigurations.append(self.currentConfiguration)
+        self.pastConfigurations.append(self.currentConfiguration.map({ String($0) }).joined())
 
         let index = self.bankWithHighestAmount()
         let iterations = self.currentConfiguration[index]
@@ -50,13 +50,14 @@ class MemoryManager
         repeat {
             counter += 1
             self.iterate()
-        } while(startingValue != self.currentConfiguration)
+        } while(startingValue.map({ String($0) }).joined() != self.currentConfiguration.map({ String($0) }).joined())
         return counter
     }
 
     public func isCurrentConfigurationKnown() -> Bool
     {
-        return self.pastConfigurations.contains(where: { $0 == self.currentConfiguration })
+        let currentConfig: String = self.currentConfiguration.map({ String($0) }).joined()
+        return self.pastConfigurations.contains(currentConfig)
     }
 
     private func bankWithHighestAmount() -> Int
