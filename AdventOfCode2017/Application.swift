@@ -104,4 +104,70 @@ class Application
 
         print("Maze could be iterate \(iterations) times until the offset was out of bounds (\(timer.getExecutionTimeAsString()!))")
     }
+
+    public func day06Part01Test()
+    {
+        self.logDayStart(6, part: 1)
+        let test = [ 0, 2, 7, 0]
+        let manager = MemoryManager(initialConfiguration: test)
+        let timer = Timer<Int>({ manager.iterateUntilLoopIsDetected() })
+        let counter = timer.execute()
+
+        var testResult: String = ""
+        if (counter == 5) {
+            testResult = terminalColors.green.apply(toString: "Result equals the expected outcome of \(5)")
+        }
+        else {
+            testResult = terminalColors.red.apply(toString: "Result of \(counter) did not match the expected value of \(5)")
+        }
+
+        print("Test: \(testResult) (\(timer.getExecutionTimeAsString()!))")
+    }
+
+    public func day06Part01()
+    {
+        self.logDayStart(6, part: 1)
+        let data = MemoryManagerDataProvider.getData()
+        let manager = MemoryManager(initialConfiguration: data)
+        let timer = Timer<Int>({ manager.iterateUntilLoopIsDetected() })
+        let counter = timer.execute()
+
+        print("MemoryManager did \(counter) iterations until a loop was detected (\(timer.getExecutionTimeAsString()!))")
+    }
+
+    public func day06Part02Test()
+    {
+        self.logDayStart(6, part: 2)
+        let test = [ 0, 2, 7, 0]
+        let manager = MemoryManager(initialConfiguration: test)
+        let timer = Timer<Int>({
+            _ = manager.iterateUntilLoopIsDetected()
+            return manager.iterateUntilValueEquals(value: manager.getCurrentConfiguration())
+        })
+        let counter = timer.execute()
+
+        var testResult: String = ""
+        if (counter == 4) {
+            testResult = terminalColors.green.apply(toString: "Result equals the expected outcome of \(4)")
+        }
+        else {
+            testResult = terminalColors.red.apply(toString: "Result of \(counter) did not match the expected value of \(4)")
+        }
+
+        print("Test: \(testResult) (\(timer.getExecutionTimeAsString()!))")
+    }
+
+    public func day06Part02()
+    {
+        self.logDayStart(6, part: 2)
+        let data = MemoryManagerDataProvider.getData()
+        let manager = MemoryManager(initialConfiguration: data)
+        let timer = Timer<Int>({
+            _ = manager.iterateUntilLoopIsDetected()
+            return manager.iterateUntilValueEquals(value: manager.getCurrentConfiguration())
+        })
+        let counter = timer.execute()
+
+        print("MemoryManager did \(counter) iterations until a loop was detected (\(timer.getExecutionTimeAsString()!))")
+    }
 }

@@ -9,9 +9,13 @@
 import Foundation
 
 let application = Application()
-application.day05Part01Test()
-application.day05Part01()
-application.day05Part02Test()
-application.day05Part02()
+//application.day05Part01Test()
+//application.day05Part01()
+//application.day05Part02Test()
+//application.day05Part02()
+application.day06Part01Test()
+application.day06Part01()
+application.day06Part02Test()
+application.day06Part02()
 
 print("\n\n")
