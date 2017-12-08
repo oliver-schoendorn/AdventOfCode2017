@@ -28,8 +28,8 @@ class MemoryManager
         let iterations = self.currentConfiguration[index]
         self.currentConfiguration[index] = 0
 
-        for i in 0..<iterations {
-            let actualIndex = Int(Float(i+index+1).truncatingRemainder(dividingBy: Float(self.currentConfiguration.count)))
+        for i in 1...iterations {
+            let actualIndex = (i+index) % self.currentConfiguration.count
             self.currentConfiguration[actualIndex] += 1
         }
     }

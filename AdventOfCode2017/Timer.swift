@@ -21,8 +21,7 @@ class Timer<T>
     {
         self.started = DispatchTime.now()
         let result = self.executable()
-        self.completed =  DispatchTime.now()
-
+        self.completed = DispatchTime.now()
         return result
     }
 
