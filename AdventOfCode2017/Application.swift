@@ -272,17 +272,17 @@ class Application
     public func day08Part01Test()
     {
         self.logDayStart(8, part: 1)
-        let data: [[String]] = [
+        let data: [String] = [
             "b inc 5 if a > 1",
             "a inc 1 if b < 5",
             "c dec -10 if a >= 1",
             "c inc -20 if c == 10"
-        ].map({ $0.split(separator: " ").map({ String($0) }) })
+        ]/*.map({ $0.split(separator: " ").map({ String($0) }) })*/
 
         let expectedResult = (key: "a", value: 1)
         let processor = Cpu()
 
-        let timer = Timer<(key: String, value: Int)>({
+        let timer = Timer<(register: (key: String, value: Int), allTime: Int)>({
             for command in data {
                 processor.process(command)
             }
@@ -293,11 +293,11 @@ class Application
         let result = timer.execute()
 
         var testResult: String = ""
-        if (result.key == expectedResult.key && result.value == expectedResult.value) {
-            testResult = terminalColors.green.apply(toString: "Result equals the expected outcome of \(result.value)")
+        if (result.register.key == expectedResult.key && result.register.value == expectedResult.value) {
+            testResult = terminalColors.green.apply(toString: "Result equals the expected outcome of \(result.register.value)")
         }
         else {
-            testResult = terminalColors.red.apply(toString: "Result \(result.value) did not match the expected value of \(expectedResult.value)")
+            testResult = terminalColors.red.apply(toString: "Result \(result.register.value) did not match the expected value of \(expectedResult.value)")
         }
 
         print("Test: \(testResult) (\(timer.getExecutionTimeAsString()!))")
@@ -307,10 +307,10 @@ class Application
     {
         self.logDayStart(8, part: 1)
 
-        let data = DataProvider.day08()
+        let data = DataProvider.day08BenchmarkStream()
         let processor = Cpu()
 
-        let timer = Timer<(key: String, value: Int)>({
+        let timer = Timer<(register: (key: String, value: Int), allTime: Int)>({
             for command in data {
                 processor.process(command)
             }
@@ -320,18 +320,18 @@ class Application
 
         let result = timer.execute()
 
-        print("Highest value in Cpu register: \(result.key) => \(result.value) (\(timer.getExecutionTimeAsString()!))")
+        print("Highest value in Cpu register: \(result.register.key) => \(result.register.value), highest value encountered: \(result.allTime) (\(timer.getExecutionTimeAsString()!))")
     }
 
     public func day08Part02Test()
     {
         self.logDayStart(8, part: 2)
-        let data: [[String]] = [
+        let data: [String] = [
             "b inc 5 if a > 1",
             "a inc 1 if b < 5",
             "c dec -10 if a >= 1",
             "c inc -20 if c == 10"
-        ].map({ $0.split(separator: " ").map({ String($0) }) })
+        ]/*.map({ $0.split(separator: " ").map({ String($0) }) })*/
 
         let expectedResult = 10
         let processor = Cpu()
@@ -353,7 +353,7 @@ class Application
         else {
             testResult = terminalColors.red.apply(toString: "Result \(result) did not match the expected value of \(expectedResult)")
         }
-        
+
         print("Test: \(testResult) (\(timer.getExecutionTimeAsString()!))")
     }
 
@@ -361,7 +361,8 @@ class Application
     {
         self.logDayStart(8, part: 2)
 
-        let data = DataProvider.day08()
+//        let data = DataProvider.day08Benchmark()
+        let data = DataProvider.day08Benchmark()
         let processor = Cpu()
 
         let timer = Timer<Int>({
@@ -375,5 +376,105 @@ class Application
         let result = timer.execute()
 
         print("Highest runtime value in Cpu register: \(result) (\(timer.getExecutionTimeAsString()!))")
+    }
+
+    public func day09Part01Test()
+    {
+        self.logDayStart(9, part: 1)
+
+        let testGroupCounts: [String: Int] = [
+            "{}": 1,
+            "{{{}}}": 3,
+            "{{},{}}": 3,
+            "{{{},{},{{}}}}": 6,
+            "{<{},{},{{}}>}": 1,
+            "{<a>,<a>,<a>,<a>}": 1,
+            "{{<a>},{<a>},{<a>},{<a>}}": 5,
+            "{{<!>},{<!>},{<!>},{<a>}}": 2
+        ]
+
+        let testScores: [String: Int] = [
+            "{}": 1,
+            "{{{}}}": 6,
+            "{{},{}}": 5,
+            "{{{},{},{{}}}}":16,
+            "{<a>,<a>,<a>,<a>}": 1,
+            "{{<ab>},{<ab>},{<ab>},{<ab>}}": 9,
+            "{{<!!>},{<!!>},{<!!>},{<!!>}}": 9,
+            "{{<a!>},{<a!>},{<a!>},{<ab>}}": 3,
+        ]
+
+        let timer = Timer<String>({
+            var result = ""
+
+            var counter = 0
+            for (characters, expectedGroupCount) in testGroupCounts {
+                counter += 1
+                result += "Result for data set #\(counter): "
+
+                let scanner = Scanner(characters)
+                scanner.scan()
+
+                if (scanner.groupCounter == expectedGroupCount) {
+                    result += terminalColors.green.apply(toString: "Result of \(scanner.groupCounter) does match expected count of \(expectedGroupCount)\n")
+                }
+                else {
+                    result += terminalColors.red.apply(toString: "Result of \(scanner.groupCounter) does NOT match expected count of \(expectedGroupCount)\n")
+                }
+            }
+
+            result += "\n"
+
+            counter = 0
+            for (characters, expectedScore) in testScores {
+                counter += 1
+                result += "Result for data set #\(counter): "
+
+                let scanner = Scanner(characters)
+                scanner.scan()
+
+                if (scanner.score == expectedScore) {
+                    result += terminalColors.green.apply(toString: "Result of \(scanner.score) does match expected score of \(expectedScore)\n")
+                }
+                else {
+                    result += terminalColors.red.apply(toString: "Result of \(scanner.score) does NOT match expected score of \(expectedScore)\n")
+                }
+            }
+
+            return result
+        })
+
+        let result = timer.execute()
+        print("\(result)\n\(timer.getExecutionTimeAsString()!)")
+    }
+
+    public func day09Part01()
+    {
+        self.logDayStart(9, part: 1)
+
+        let scanner = Scanner(DataProvider.day09())
+
+        let timer = Timer<Int>({
+            scanner.scan()
+            return scanner.score
+        })
+
+        let result = timer.execute()
+        print("Scanner returned a score of \(result) (\(timer.getExecutionTimeAsString()!))")
+    }
+
+    public func day09Part02()
+    {
+        self.logDayStart(9, part: 2)
+
+        let scanner = Scanner(DataProvider.day09())
+
+        let timer = Timer<Int>({
+            scanner.scan()
+            return scanner.garbageCount
+        })
+
+        let result = timer.execute()
+        print("Scanner returned a garbage character count of \(result) (\(timer.getExecutionTimeAsString()!))")
     }
 }

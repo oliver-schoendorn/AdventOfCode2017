@@ -28,10 +28,14 @@ let application = Application()
 //application.day07Part02Test() // Test: Result equals the expected outcome of 60 (24µs)
 //application.day07Part02()     // TowerMapper found ycbgx to be imbalanced. Weight should be 1526 (3ms 85µs)
 
-application.day08Part01Test()   // Test: Result equals the expected outcome of 1 (124µs)
-application.day08Part01()       // Highest value in Cpu register: j => 4567 (581µs)
+//application.day08Part01Test()   // Test: Result equals the expected outcome of 1 (124µs)
+//application.day08Part01()       // Highest value in Cpu register: j => 4567 (581µs)
 
-application.day08Part02Test()   // Test: Result equals the expected outcome of 10 (4µs)
-application.day08Part02()       // Highest runtime value in Cpu register: 5636 (598µs)
+//application.day08Part02Test()   // Test: Result equals the expected outcome of 10 (4µs)
+//application.day08Part02()       // Highest runtime value in Cpu register: 5636 (598µs)
+
+application.day09Part01Test()
+application.day09Part01()
+application.day09Part02()
 
 print("\n\n")

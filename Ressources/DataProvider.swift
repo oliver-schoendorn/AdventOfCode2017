@@ -7,14 +7,34 @@ import Foundation
 
 class DataProvider
 {
-    public static func day08() -> [[String]]
+    public static func day08() -> [String]
     {
-        return readFile("day08")
+        return parseDay08(readFile("day08"))
+    }
+    public static func day08Benchmark() -> [String]
+    {
+        return parseDay08(readFile("day08", withExtension: "benchmark"))
+    }
+
+    public static func day08BenchmarkStream() -> FileStream
+    {
+        return FileStream(path: "day08.benchmark")
+    }
+
+    private static func parseDay08(_ input: String) -> [String]
+    {
+        return input
             .split(separator: "\n")
             .map({
-                $0.split(separator: " ")
-                  .map({ String($0) })
+                /*$0.split(separator: " ")
+                  .map({ String($0) })*/
+                String($0)
             })
+    }
+
+    public static func day09() -> String
+    {
+        return readFile("day09")
     }
 
     private static func readFile(_ name: String, withExtension: String = "data") -> String

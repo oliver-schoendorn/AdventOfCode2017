@@ -7,12 +7,14 @@ import Foundation
 
 class Cpu
 {
-    enum Action: String {
+    enum Action: String
+    {
         case increment = "inc"
         case decrement = "dec"
     }
 
-    enum Comparison: String {
+    enum Comparison: String
+    {
         case equals = "=="
         case notEquals = "!="
         case lessThan = "<"
@@ -21,7 +23,8 @@ class Cpu
         case greaterThanOrEquals = ">="
     }
 
-    struct Command {
+    struct Command
+    {
         public let variable: String
         public let action: Action
         public let value: Int
@@ -48,12 +51,13 @@ class Cpu
 
     private var register: [String: Int] = [:]
     private var highestValue: Int = 0
+    private let trimmingCharacterSet = CharacterSet(charactersIn: "\n")
 
-    public func getHighestValueFromRegister() -> (key: String, value: Int)
+    public func getHighestValueFromRegister() -> (register: (key: String, value: Int), allTime: Int)
     {
-        return self.register.max(by: { (a: (key: String, value: Int), b: (key: String, value: Int)) -> Bool in
+        return ( register: self.register.max(by: { (a: (key: String, value: Int), b: (key: String, value: Int)) -> Bool in
             return a.value < b.value
-        })!
+        })!, allTime: self.highestValue)
     }
 
     public func getHighestRuntimeValue() -> Int
@@ -61,21 +65,22 @@ class Cpu
         return self.highestValue
     }
 
-    public func process(_ command: [String])
+    public func process(_ command: String)
     {
         let command = self.parseCommand(command)
         self.executeCommand(command)
     }
 
-    private func parseCommand(_ command: [String]) -> Command
+    private func parseCommand(_ command: String) -> Command
     {
+        let command = command.split(separator: " ")
         return Command(
-            variable: command[0],
-            action: command[1],
+            variable: String(command[0]),
+            action: String(command[1]),
             value: Int(command[2])!,
-            comparisonVariable: command[4],
-            comparison: command[5],
-            comparisonValue: Int(command[6])!
+            comparisonVariable: String(command[4]),
+            comparison: String(command[5]),
+            comparisonValue: Int(command[6].trimmingCharacters(in: self.trimmingCharacterSet))!
         )
     }
 
