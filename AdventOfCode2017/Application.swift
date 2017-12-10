@@ -477,4 +477,96 @@ class Application
         let result = timer.execute()
         print("Scanner returned a garbage character count of \(result) (\(timer.getExecutionTimeAsString()!))")
     }
+
+    public func day10Part01Test()
+    {
+        self.logDayStart(10, part: 1)
+        let testValues = [ 3, 4, 1, 5 ]
+        let expectedResult = 12
+
+        let hash = Hash(hashLength: 5)
+
+        let timer = Timer<Int>({
+            let responseHash = hash.encrypt(testValues)
+            print("Resulting hash: \(responseHash)")
+            return responseHash[0] * responseHash[1]
+        })
+
+        let result = timer.execute()
+
+        var testResult: String = ""
+        if (result == expectedResult) {
+            testResult = terminalColors.green.apply(toString: "Result equals the expected outcome of \(result)")
+        }
+        else {
+            testResult = terminalColors.red.apply(toString: "Result \(result) did not match the expected value of \(expectedResult)")
+        }
+
+        print("Test: \(testResult) (\(timer.getExecutionTimeAsString()!))")
+    }
+
+    public func day10Part01()
+    {
+        self.logDayStart(10, part: 1)
+        let testValues = DataProvider.day10()
+
+        let hash = Hash()
+
+        let timer = Timer<Int>({
+            let responseHash = hash.encrypt(testValues.split(separator: ",").map({ Int($0)! }))
+//            print("Resulting hash: \(responseHash)")
+            return responseHash[0] * responseHash[1]
+        })
+
+        let result = timer.execute()
+        print("The product of the first two hash values is \(result) (\(timer.getExecutionTimeAsString()!))")
+    }
+
+    public func day10Part02test()
+    {
+        self.logDayStart(10, part: 2)
+        let testValues = [
+            "" : "a2582a3a0e66e6e86e3812dcb672a272",
+            "AoC 2017" : "33efeb34ea91902bb2f59c9920caa6cd",
+            "1,2,3" : "3efbe78a8d82f29979031a4aa0b16a9d",
+            "1,2,4" : "63960835bcdc130f0b66d7ff4f6a5a8e"
+        ]
+
+        let hash = Hash()
+
+        let timer = Timer<[String:String]>({
+            var response: [String:String] = [:]
+            for (testValue, expectedValue) in testValues {
+                response[hash.encryptString(testValue)] = expectedValue
+            }
+            return response
+        })
+
+        var testResult: String = ""
+        for (result, expectedResult) in timer.execute() {
+            if (result == expectedResult) {
+                testResult += terminalColors.green.apply(toString: "Result equals the expected outcome of \(result)\n")
+            }
+            else {
+                testResult += terminalColors.red.apply(toString: "Result \(result) did not match the expected value of \(expectedResult)\n")
+            }
+        }
+
+        print("\(testResult)\n(\(timer.getExecutionTimeAsString()!))")
+    }
+
+    public func day10Part02()
+    {
+        self.logDayStart(10, part: 2)
+        let string = DataProvider.day10thore()
+        let hash = Hash()
+
+        let timer = Timer<String>({
+            return hash.encryptString(string)
+        })
+
+        let result = timer.execute()
+
+        print("Resulting hash is \(result) (\(timer.getExecutionTimeAsString()!))")
+    }
 }

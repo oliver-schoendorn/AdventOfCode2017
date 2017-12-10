@@ -37,6 +37,16 @@ class DataProvider
         return readFile("day09")
     }
 
+    public static func day10() -> String
+    {
+        return readFile("day10")
+    }
+
+    public static func day10thore() -> String
+    {
+        return readFile("day10-thore")
+    }
+
     private static func readFile(_ name: String, withExtension: String = "data") -> String
     {
         guard let filePath = Bundle.main.url(forResource: name, withExtension: withExtension) else {

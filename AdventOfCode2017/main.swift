@@ -34,8 +34,14 @@ let application = Application()
 //application.day08Part02Test()   // Test: Result equals the expected outcome of 10 (4µs)
 //application.day08Part02()       // Highest runtime value in Cpu register: 5636 (598µs)
 
-application.day09Part01Test()
-application.day09Part01()
-application.day09Part02()
+//application.day09Part01Test()
+//application.day09Part01()
+//application.day09Part02()
+
+application.day10Part01Test()     // Test: Result equals the expected outcome of 12 (140µs)
+application.day10Part01()         // The product of the first two hash values is 46600 (18µs)
+
+application.day10Part02test()
+application.day10Part02()
 
 print("\n\n")
