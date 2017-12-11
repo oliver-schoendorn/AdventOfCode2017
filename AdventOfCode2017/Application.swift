@@ -569,4 +569,87 @@ class Application
 
         print("Resulting hash is \(result) (\(timer.getExecutionTimeAsString()!))")
     }
+
+    public func day11Part01test()
+    {
+        self.logDayStart(10, part: 1)
+        let testMoves: [(key: [String], value: [HexGrid.Direction: Int])] = [
+            (key: ["ne","ne","ne"], value: [HexGrid.Direction.northEast: 3]),
+            (key: ["ne","ne","sw","sw"], value: [:]),
+            (key: ["ne","ne","s","s"], value: [HexGrid.Direction.southEast: 2]),
+            (key: ["se","sw","se","sw","sw"], value: [HexGrid.Direction.south: 2, HexGrid.Direction.southWest: 1])
+        ]
+
+        let timer = Timer<String>({
+            var testResult = ""
+            for moves in testMoves {
+                let grid = HexGrid(moves.key)
+                let uniqueMoves = grid.getMoves()
+
+                if (self.validateDay11Part01(uniqueMoves, expected: moves.value)) {
+                    testResult += terminalColors.green.apply(toString: "Result equals the expected outcome of \(uniqueMoves.count) unique moves\n")
+                }
+                else {
+                    testResult += terminalColors.red.apply(toString: "Result of \(uniqueMoves.count) did not match the expected value of \(moves.value.count)\n")
+                }
+            }
+            return testResult
+        })
+
+        let testResult = timer.execute()
+        print("\(testResult)\n(\(timer.getExecutionTimeAsString()!))")
+    }
+
+    private func validateDay11Part01(_ result: [HexGrid.Direction: Int], expected: [HexGrid.Direction: Int]) -> Bool
+    {
+        // Match values
+        for expectedMove in expected {
+            if result[expectedMove.key] == nil || result[expectedMove.key]! != expectedMove.value {
+                return false
+            }
+        }
+
+        // Look for unwanted indices
+        for actualMove in result {
+            if expected[actualMove.key] == nil {
+                return false
+            }
+        }
+
+        return true
+    }
+
+    public func day11Part01()
+    {
+        self.logDayStart(11, part: 1)
+
+        let moves = DataProvider.day11()
+        let timer = Timer<(moves: [HexGrid.Direction: Int], distance: Int)>({
+            let grid = HexGrid(moves)
+            return (moves: grid.getMoves(), distance: grid.distanceFromOrigin())
+        })
+
+        let result = timer.execute()
+        for move in result.moves {
+            print("Moved \(move.value) times \(move.key.rawValue)")
+        }
+        print("Move distance: \(result.distance) (\(timer.getExecutionTimeAsString()!))")
+    }
+
+    public func day11Part02()
+    {
+        self.logDayStart(11, part: 2)
+
+        let moves = DataProvider.day11()
+        let timer = Timer<(moves: [HexGrid.Direction: Int], distance: Int, maxDistance: Int)>({
+            let grid = HexGrid(moves, trackLongestDistance: true)
+            return (moves: grid.getMoves(), distance: grid.distanceFromOrigin(), maxDistance: grid.longestDistance)
+        })
+
+        let result = timer.execute()
+        for move in result.moves {
+            print("Moved \(move.value) times \(move.key.rawValue)")
+        }
+        print("Move distance: \(result.distance), max distance: \(result.maxDistance) (\(timer.getExecutionTimeAsString()!))")
+    }
 }

@@ -47,6 +47,11 @@ class DataProvider
         return readFile("day10-thore")
     }
 
+    public static func day11() -> [String]
+    {
+        return readFile("day11").split(separator: ",").map({ String($0) })
+    }
+
     private static func readFile(_ name: String, withExtension: String = "data") -> String
     {
         guard let filePath = Bundle.main.url(forResource: name, withExtension: withExtension) else {

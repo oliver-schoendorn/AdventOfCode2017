@@ -38,10 +38,14 @@ let application = Application()
 //application.day09Part01()
 //application.day09Part02()
 
-application.day10Part01Test()     // Test: Result equals the expected outcome of 12 (140µs)
-application.day10Part01()         // The product of the first two hash values is 46600 (18µs)
+//application.day10Part01Test()     // Test: Result equals the expected outcome of 12 (140µs)
+//application.day10Part01()         // The product of the first two hash values is 46600 (18µs)
 
-application.day10Part02test()
-application.day10Part02()
+//application.day10Part02test()
+//application.day10Part02()
+
+application.day11Part01test()
+application.day11Part01()           // Moved 521 times n, Moved 243 times ne, Move distance: 764 (1ms 459µs)
+application.day11Part02()           // Moved 521 times n, Moved 243 times ne, Move distance: 764, max distance: 1532 (15ms 47µs)
 
 print("\n\n")
